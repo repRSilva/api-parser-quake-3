@@ -1,7 +1,8 @@
-const express = require('express');
+const { Router } = require('express');
+const gameController = require('../../controllers/games/gamesController');
 
-const router = express.router();
+const gameRoutes = Router();
 
-router.get('/games/list/name/:name', (req, res) => {
-  res.status(200).send({ Route: 'Route to list games by name' });
-});
+gameRoutes.get('/games/list/name', gameController.list);
+
+module.exports = gameRoutes;
