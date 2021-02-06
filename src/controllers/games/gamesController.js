@@ -6,9 +6,17 @@ class GamesController {
   }
 
   parserLogToJson({ pathName, fileName }) {
-    const file = this.gamesService.getFile({ pathName, fileName });
+    const { error, errorMessage, file } = this.gamesService.getFile({
+      pathName,
+      fileName,
+    });
+
+    if (error) {
+      return { error, errorMessage, file };
+    }
+
     const fileParsed = this.gamesService.initParser({ file });
-    return fileParsed;
+    return { error, errorMessage, file: fileParsed };
   }
 
   async list(req, res) {
