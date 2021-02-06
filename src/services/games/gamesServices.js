@@ -33,9 +33,6 @@ class GamesService {
         case 'Kill:':
           this.createNewKill(line, lineDetail);
           break;
-        case '<world>':
-          // console.log('WORD: ', line);
-          break;
         default:
           break;
       }
@@ -64,7 +61,10 @@ class GamesService {
     const lastGame = this.getTheLastGame();
     const exists = lastGame.players.find(player => player === newUser);
 
-    if (!exists) lastGame.players.push(newUser);
+    if (!exists) {
+      lastGame.players.push(newUser);
+      lastGame.kills = { ...lastGame.kills, [newUser]: 0 };
+    }
   }
 
   createNewKill(line, lineDetail) {
@@ -72,29 +72,39 @@ class GamesService {
     const lastGame = this.getTheLastGame();
     lastGame.total_kills++;
 
-    if (userKill === '<world>') {
-      this.createWorldNewKill(line, lineDetail);
+    if (userKill.trim() === '<world>') {
+      this.createWorldNewKill(line);
       return;
     }
 
-    this.createUserNewKill(line, lineDetail);
+    this.createUserNewKill(line);
   }
 
   createUserNewKill(line) {
-    const parts = line.split(':');
-    const userKilledUser = parts[parts.length - 1];
-    const userKilled = userKilledUser.split('killed')[1].split('by')[0].trim();
-
+    const userKilled = this.getUserKilled(line);
     const lastGame = this.getTheLastGame();
 
     lastGame.kills[userKilled] = lastGame.kills[userKilled]++ || 1;
   }
 
-  createWorldNewKill(line, lineDetail) { }
+  createWorldNewKill(line) {
+    const worldKilled = this.getUserKilled(line);
+    const lastGame = this.getTheLastGame();
+
+    lastGame.kills[worldKilled] = lastGame.kills[worldKilled]-- || -1;
+  }
 
   getTheLastGame() {
     const indexLastGame = this.jsonGames.length - 1;
     return this.jsonGames[indexLastGame][`game_${indexLastGame + 1}`];
+  }
+
+  getUserKilled(line) {
+    const parts = line.split(':');
+    const user = parts[parts.length - 1];
+    const userKilled = user.split('killed')[1].split('by')[0].trim();
+
+    return userKilled;
   }
 }
 
