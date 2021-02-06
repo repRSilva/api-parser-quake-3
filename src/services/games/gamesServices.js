@@ -80,7 +80,15 @@ class GamesService {
     this.createUserNewKill(line, lineDetail);
   }
 
-  createUserNewKill(line, lineDetail) { }
+  createUserNewKill(line) {
+    const parts = line.split(':');
+    const userKilledUser = parts[parts.length - 1];
+    const userKilled = userKilledUser.split('killed')[1].split('by')[0].trim();
+
+    const lastGame = this.getTheLastGame();
+
+    lastGame.kills[userKilled] = lastGame.kills[userKilled]++ || 1;
+  }
 
   createWorldNewKill(line, lineDetail) { }
 
