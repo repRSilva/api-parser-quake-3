@@ -43,7 +43,7 @@ class Server {
   getParserLogToJson() {
     const pathName = path.resolve(__dirname, 'data');
     const fileName = 'games.log';
-    const { error, errorMessage, file } = GamesController.parserLogToJson({
+    const { error, errorMessage, file } = GamesController.initConvertLogToJson({
       pathName,
       fileName,
     });

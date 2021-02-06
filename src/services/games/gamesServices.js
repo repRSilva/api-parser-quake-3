@@ -4,6 +4,8 @@ const GamesRepository = require('../../repositories/games/gamesRepository');
 class GamesService {
   constructor() {
     this.gamesRepository = new GamesRepository();
+    this.lines = [];
+    this.jsonGames = [];
   }
 
   getFile({ pathName, fileName }) {
@@ -18,8 +20,13 @@ class GamesService {
     return { error: false, file: fileLog };
   }
 
-  initParser({ file }) {
-    return file;
+  convertLogToJson({ file }) {
+    this.lines = file.split('\n');
+
+    this.lines.forEach(line => {
+      const LineDetail = line.trim().split(' ');
+      console.log('DETAIL: ', LineDetail);
+    });
   }
 }
 

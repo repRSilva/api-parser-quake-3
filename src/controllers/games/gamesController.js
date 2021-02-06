@@ -5,7 +5,7 @@ class GamesController {
     this.gamesService = new GamesService();
   }
 
-  parserLogToJson({ pathName, fileName }) {
+  initConvertLogToJson({ pathName, fileName }) {
     const { error, errorMessage, file } = this.gamesService.getFile({
       pathName,
       fileName,
@@ -15,7 +15,7 @@ class GamesController {
       return { error, errorMessage, file };
     }
 
-    const fileParsed = this.gamesService.initParser({ file });
+    const fileParsed = this.gamesService.convertLogToJson({ file });
     return { error, errorMessage, file: fileParsed };
   }
 
