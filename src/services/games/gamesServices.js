@@ -9,15 +9,13 @@ class GamesService {
   }
 
   getFile({ pathName, fileName }) {
-    if (!fs.existsSync(`${pathName}\\${fileName}`)) {
-      return { error: true, errorMessage: '!nvalid file path', file: '' };
-    }
+    const {
+      error,
+      errorMessage,
+      file,
+    } = this.gamesRepository.getFileByPathAndName({ pathName, fileName });
 
-    const fileLog = fs.readFileSync(`${pathName}\\${fileName}`, {
-      encoding: 'utf8',
-    });
-
-    return { error: false, file: fileLog };
+    return { error, errorMessage, file };
   }
 
   convertLogToJson({ file }) {
@@ -25,7 +23,7 @@ class GamesService {
 
     this.lines.forEach(line => {
       const LineDetail = line.trim().split(' ');
-      console.log('DETAIL: ', LineDetail);
+      // console.log('DETAIL: ', LineDetail);
     });
   }
 }
