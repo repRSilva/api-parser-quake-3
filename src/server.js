@@ -5,10 +5,12 @@ const cors = require('cors');
 const bodyParser = require('body-parser');
 const path = require('path');
 const recursiveReaddir = require('recursive-readdir');
+const GamesController = require('./controllers/games/gamesController');
 
 class Server {
   constructor() {
     this.server = express();
+    global.jsonLog = this.getParserLogToJson();
     this.middlewares();
     this.routes();
   }
@@ -36,6 +38,13 @@ class Server {
         this.server.use(route);
       });
     });
+  }
+
+  getParserLogToJson() {
+    const pathName = path.resolve(__dirname, 'src', 'data');
+    const fileName = 'games.log';
+    const logParsed = GamesController.parserLogToJson({ pathName, fileName });
+    return logParsed;
   }
 }
 

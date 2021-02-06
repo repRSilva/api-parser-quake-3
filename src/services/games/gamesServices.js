@@ -5,7 +5,13 @@ class GamesService {
     this.gamesRepository = new GamesRepository();
   }
 
-  async getFile({ pathName, fileName }) { }
+  getFile({ pathName, fileName }) {
+    return 'file';
+  }
+
+  initParser({ file }) {
+    return 'file';
+  }
 }
 
 module.exports = GamesService;
