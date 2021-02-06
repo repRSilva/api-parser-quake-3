@@ -22,9 +22,37 @@ class GamesService {
     this.lines = file.split('\n');
 
     this.lines.forEach(line => {
-      const LineDetail = line.trim().split(' ');
-      // console.log('DETAIL: ', LineDetail);
+      const lineDetail = line.trim().split(' ');
+
+      switch (lineDetail[1]) {
+        case 'InitGame:':
+          // console.log('INIT GAME: ', line);
+          this.createNewGame();
+          break;
+        case 'Kill:':
+          // console.log('KILL: ', line);
+          break;
+        case 'ClientUserinfoChanged:':
+          // console.log('NEW USER: ', line);
+          break;
+        case '<world>':
+          // console.log('WORD: ', line);
+          break;
+        default:
+          break;
+      }
     });
+  }
+
+  createNewGame() {
+    const key = `game_${this.jsonGames.length + 1}`;
+    const data = {
+      total_kills: 0,
+      players: [],
+      kills: {},
+    };
+
+    this.jsonGames.push({ [key]: data });
   }
 }
 
