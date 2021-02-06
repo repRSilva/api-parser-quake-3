@@ -1,5 +1,3 @@
-const { execSync } = require('child_process');
-const fs = require('fs');
 const GamesRepository = require('../../repositories/games/gamesRepository');
 
 class GamesService {
@@ -27,15 +25,13 @@ class GamesService {
 
       switch (lineDetail[1]) {
         case 'InitGame:':
-          // console.log('INIT GAME: ', line);
           this.createNewGame();
           break;
         case 'ClientUserinfoChanged:':
-          // console.log('NEW USER: ', line);
           this.createNewUser(line);
           break;
         case 'Kill:':
-          // console.log('KILL: ', line);
+          this.createNewKill(line, lineDetail);
           break;
         case '<world>':
           // console.log('WORD: ', line);
@@ -60,18 +56,37 @@ class GamesService {
   }
 
   createNewUser(line) {
-    const indexLastGame = this.jsonGames.length - 1;
     const newUser = line
       .split('n\\')[1]
       .split('t\\')[0]
       .toString()
       .replace('\\', '');
-
-    const lastGame = this.jsonGames[indexLastGame][`game_${indexLastGame + 1}`];
-
+    const lastGame = this.getTheLastGame();
     const exists = lastGame.players.find(player => player === newUser);
 
     if (!exists) lastGame.players.push(newUser);
+  }
+
+  createNewKill(line, lineDetail) {
+    const userKill = lineDetail[5];
+    const lastGame = this.getTheLastGame();
+    lastGame.total_kills++;
+
+    if (userKill === '<world>') {
+      this.createWorldNewKill(line, lineDetail);
+      return;
+    }
+
+    this.createUserNewKill(line, lineDetail);
+  }
+
+  createUserNewKill(line, lineDetail) { }
+
+  createWorldNewKill(line, lineDetail) { }
+
+  getTheLastGame() {
+    const indexLastGame = this.jsonGames.length - 1;
+    return this.jsonGames[indexLastGame][`game_${indexLastGame + 1}`];
   }
 }
 
