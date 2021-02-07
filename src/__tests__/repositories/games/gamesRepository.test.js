@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 const path = require('path');
 const GamesRepository = require('../../../repositories/games/gamesRepository');
 
