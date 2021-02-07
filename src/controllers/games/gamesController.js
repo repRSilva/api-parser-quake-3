@@ -19,8 +19,31 @@ class GamesController {
     return { error, errorMessage, file: fileParsed };
   }
 
-  async list(req, res) {
-    res.json(global.jsonLog);
+  async listByName(req, res) {
+    const { name } = req.query;
+    if (!name) {
+      res
+        .status(400)
+        .send({ error: true, errorMessage: 'The name parameter is required!' });
+    }
+
+    const nameFilter = name.replace(/"/g, '');
+    const gamesFiltred = global.jsonLog.find(game => game[nameFilter]);
+
+    if (gamesFiltred) {
+      res.json(gamesFiltred);
+      return;
+    }
+
+    res.status(400).send({ error: true, errorMessage: 'Game not found!' });
+  }
+
+  async listAll(req, res) {
+    if (global.jsonLog.length > 0) {
+      res.json(global.jsonLog);
+      return;
+    }
+    res.status(400).send({ error: true, errorMessage: 'Games not found!' });
   }
 }
 
