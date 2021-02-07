@@ -83,15 +83,13 @@ class GamesService {
   createUserNewKill(line) {
     const userKilled = this.getUserKilled(line);
     const lastGame = this.getTheLastGame();
-
-    lastGame.kills[userKilled] = lastGame.kills[userKilled]++ || 1;
+    lastGame.kills[userKilled] = lastGame.kills[userKilled] + 1 || 1;
   }
 
   createWorldNewKill(line) {
     const worldKilled = this.getUserKilled(line);
     const lastGame = this.getTheLastGame();
-
-    lastGame.kills[worldKilled] = lastGame.kills[worldKilled]-- || -1;
+    lastGame.kills[worldKilled] = lastGame.kills[worldKilled] - 1 || -1;
   }
 
   getTheLastGame() {
