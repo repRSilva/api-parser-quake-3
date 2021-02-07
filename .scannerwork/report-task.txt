@@ -1,0 +1,6 @@
+projectKey=test-luiza-labs
+serverUrl=http://127.0.0.1:9000
+serverVersion=8.4.1.35646
+dashboardUrl=http://127.0.0.1:9000/dashboard?id=test-luiza-labs
+ceTaskId=AXd9uAbwsQEwDg8AM31X
+ceTaskUrl=http://127.0.0.1:9000/api/ce/task?id=AXd9uAbwsQEwDg8AM31X

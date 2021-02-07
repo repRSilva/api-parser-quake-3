@@ -7,7 +7,8 @@
   "scripts": {
     "start": "node src/server.js",
     "dev": "nodemon",
-    "test": ""
+    "test": "",
+    "sonar": "sonar-scanner -Dsonar.host.url=http://127.0.0.1:9000"
   },
   "dependencies": {
     "body-parser": "^1.19.0",
