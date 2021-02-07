@@ -3,8 +3,10 @@ const request = require('supertest');
 const { url } = require('../config/config.json');
 
 describe('Server.js file test suite', () => {
-  test('Initialization of the server.js file', () => {
+  test('Initialization of the server.js file', async () => {
     const app = require('../../server');
+    const response = await request(url).get('/games/list/name?name=game_1');
+    expect(response.statusCode).toBe(200);
   });
 
   test('Test on the "/games/list/name" route ', async () => {
