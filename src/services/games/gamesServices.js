@@ -81,15 +81,23 @@ class GamesService {
   }
 
   createUserNewKill(line) {
+    const userDead = this.getUserDead(line);
     const userKilled = this.getUserKilled(line);
-    const lastGame = this.getTheLastGame();
-    lastGame.kills[userKilled] = lastGame.kills[userKilled] + 1 || 1;
+
+    if (userKilled.trim() !== userDead.trim()) {
+      const lastGame = this.getTheLastGame();
+
+      const total = lastGame.kills[userKilled] + 1;
+      lastGame.kills[userKilled] = total;
+    }
   }
 
   createWorldNewKill(line) {
-    const worldKilled = this.getUserKilled(line);
+    const worldDead = this.getUserDead(line);
     const lastGame = this.getTheLastGame();
-    lastGame.kills[worldKilled] = lastGame.kills[worldKilled] - 1 || -1;
+
+    const total = lastGame.kills[worldDead] - 1;
+    lastGame.kills[worldDead] = total;
   }
 
   getTheLastGame() {
@@ -97,10 +105,18 @@ class GamesService {
     return this.jsonGames[indexLastGame][`game_${indexLastGame + 1}`];
   }
 
-  getUserKilled(line) {
+  getUserDead(line) {
     const parts = line.split(':');
     const user = parts[parts.length - 1];
-    const userKilled = user.split('killed')[1].split('by')[0].trim();
+    const userDead = user.split('killed')[1].split('by')[0].trim();
+
+    return userDead;
+  }
+
+  getUserKilled(line) {
+    const parts = line.split(':');
+    const user = parts[3];
+    const userKilled = user.split('killed')[0].trim();
 
     return userKilled;
   }
