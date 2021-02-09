@@ -1,11 +1,11 @@
 {
-  "name": "test-luiza-labs",
+  "name": "api-parser-quake-3",
   "version": "1.0.0",
   "author": "Rafael Silva <rafael_map@hotmail.com>",
   "main": "src/index.js",
   "license": "MIT",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "node src/index.js",
     "dev": "nodemon",
     "test": "jest",
     "sonar": "sonar-scanner -Dsonar.host.url=http://127.0.0.1:9000"
